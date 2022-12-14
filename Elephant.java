@@ -15,7 +15,7 @@ public class Elephant extends Actor
     //Direction the elephant is facing
     String facing = "right";
     SimpleTimer animationTimer = new SimpleTimer();
-    
+    MyWorld world = (MyWorld) getWorld();
     /**
      * Constructor- The code that gets run one time when object is created
      */
@@ -46,6 +46,7 @@ public class Elephant extends Actor
     int imageIndex = 0;
     public void animateElephant()
     {
+        MyWorld world = (MyWorld) getWorld();
         if(animationTimer.millisElapsed() < 100)
         {
             return;
@@ -55,47 +56,54 @@ public class Elephant extends Actor
         {
             setImage(idleRight[imageIndex]);
             imageIndex = (imageIndex + 1) % idleRight.length;
+           
         }
         else
         {
+        
             setImage(idleLeft[imageIndex]);
             imageIndex = (imageIndex + 1) % idleLeft.length;
+       
         }
     }
     
     
     public void act()
     {
+        MyWorld world = (MyWorld) getWorld();
         int x = getX();
         int y = getY();
-        
-        if(Greenfoot.isKeyDown("left"))
+        world.gameOver();
+        if(!world.endGame)
         {
-            x -= 2;
-            facing = "left";
+            if(Greenfoot.isKeyDown("left"))
+            {
+                x -= 2;
+                facing = "left";
+            }
+            if(Greenfoot.isKeyDown("right"))
+            {
+                x +=2;
+                facing = "right";
+            }
+            
+            if(Greenfoot.isKeyDown("up"))
+            {
+                y -= 2;
+            }
+            if(Greenfoot.isKeyDown("down"))
+            {
+                y +=2;
+            }
+            
+            setLocation(x, y);
+            
+            // Remove apple if elephant eats it
+            eat();
+            
+            //Animate the elephant
+            animateElephant();
         }
-        if(Greenfoot.isKeyDown("right"))
-        {
-            x +=2;
-            facing = "right";
-        }
-        
-        if(Greenfoot.isKeyDown("up"))
-        {
-            y -= 2;
-        }
-        if(Greenfoot.isKeyDown("down"))
-        {
-            y +=2;
-        }
-        
-        setLocation(x, y);
-        
-        // Remove apple if elephant eats it
-        eat();
-        
-        //Animate the elephant
-        animateElephant();
     }
     
     /*

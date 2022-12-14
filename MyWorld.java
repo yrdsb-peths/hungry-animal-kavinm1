@@ -11,6 +11,7 @@ public class MyWorld extends World
     public int score = 0;
     Label scoreLabel;
     int level = 1;
+    boolean endGame = false;
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -29,6 +30,7 @@ public class MyWorld extends World
         addObject(scoreLabel, 50, 50);
         
         createApple();
+        
     }
     
     /*
@@ -36,8 +38,11 @@ public class MyWorld extends World
      */
     public void gameOver()
     {
-        Label gameOverLabel = new Label("Game Over", 100);
-        addObject(gameOverLabel, 300, 200);
+        if(endGame)
+        {
+            Label gameOverLabel = new Label("Game Over", 100);
+            addObject(gameOverLabel, 300, 200);
+        }
     }
     
     /*
@@ -59,10 +64,13 @@ public class MyWorld extends World
      */
     public void createApple()
     {
-        Apple apple = new Apple();
-        apple.setSpeed(level);
-        int x = Greenfoot.getRandomNumber(600);
-        int y = 0;
-        addObject(apple, x, y);
+        if(!endGame)
+        {
+            Apple apple = new Apple();
+            apple.setSpeed(level);
+            int x = Greenfoot.getRandomNumber(600);
+            int y = 0;
+            addObject(apple, x, y);
+        }
     }
 }
